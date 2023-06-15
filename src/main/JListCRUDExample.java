@@ -18,7 +18,7 @@ public class JListCRUDExample extends JFrame {
     private List<String> items;
 
     public JListCRUDExample() {
-        setTitle("JList CRUD Example");
+        setTitle("Minha Lista");
         setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
@@ -40,19 +40,30 @@ public class JListCRUDExample extends JFrame {
         deleteButton = new JButton("Apagar");
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        
         buttonPanel.add(addButton);
+        
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
+        JSpinner quantitySpinner = new JSpinner(spinnerModel);
+        buttonPanel.add(quantitySpinner);
+        
         buttonPanel.add(updateButton);
+        
         buttonPanel.add(deleteButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Event handlers
         addButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                String newItem = textField.getText();
-                if (!newItem.isEmpty()) {
-                    items.add(newItem);
-                    listModel.addElement(newItem);
+                String item = textField.getText();
+                if (!item.isEmpty()) {
+                    int quantity = (int) quantitySpinner.getValue(); // Obtém o valor do JSpinner
+                    String itemWithQuantity = item + " (Quantidade: " + quantity + ")";
+                    listModel.addElement(itemWithQuantity);
                     textField.setText("");
+                    quantitySpinner.setValue(0); // Reinicia o valor do JSpinner
+                    textField.requestFocus();
                 }
             }
         });
